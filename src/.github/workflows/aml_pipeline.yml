@@ -1,0 +1,58 @@
+name: Run Azure ML Gold Pipeline
+
+on:
+  push:
+    branches:
+      - MRI-brain-images
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------
+      # Checkout repository
+      # -----------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------
+      # Set up Python
+      # -----------------------
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # -----------------------
+      # Install Azure ML SDK
+      # -----------------------
+      - name: Install Azure ML SDK
+        run: |
+          pip install azure-ai-ml azure-identity
+
+      # -----------------------
+      # Authenticate to Azure (Username + Password)
+      # -----------------------
+      - name: Azure Login
+        run: |
+          az login -u "${{ secrets.AZURE_USERNAME }}" -p "${{ secrets.AZURE_PASSWORD }}" --tenant "${{ secrets.AZURE_TENANT_ID }}"
+          az account set --subscription "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+
+      # -----------------------
+      # Submit training pipeline
+      # -----------------------
+      - name: Submit Gold Pipeline
+        run: |
+          python pipeline_job.py
+
+      # -----------------------
+      # Deploy latest model to endpoint
+      # -----------------------
+      - name: Deploy Latest Model
+        run: |
+          python deploy_endpoint.py
