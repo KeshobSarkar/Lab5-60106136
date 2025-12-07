@@ -1,0 +1,32 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: train_eval_component
+display_name: Train and Evaluate Model
+version: 3
+type: command
+
+inputs:
+  train_input:
+    type: uri_file
+  test_input:
+    type: uri_file
+  selected_features:
+    type: uri_file
+
+outputs:
+  metrics_output:
+    type: uri_folder
+  model_output:
+    type: mlflow_model
+
+code: .
+
+command: >
+  python train_eval.py
+  --train_input ${{inputs.train_input}}
+  --test_input ${{inputs.test_input}}
+  --selected_features ${{inputs.selected_features}}
+  --metrics_output ${{outputs.metrics_output}}
+  --model_output ${{outputs.model_output}}
+
+environment: azureml:gold_reg:10

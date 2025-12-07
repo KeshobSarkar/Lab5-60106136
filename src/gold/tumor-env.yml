@@ -1,0 +1,18 @@
+name: gold_reg
+version: 10
+channels:
+  - defaults
+
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+      - pandas
+      - numpy
+      - scikit-learn
+      - pyarrow
+      - fastparquet
+      - deap
+      - xgboost
+      - lightgbm
+      - mlflow

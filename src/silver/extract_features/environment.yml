@@ -1,0 +1,16 @@
+name: image_features_env
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.9
+  - pip
+  - numpy
+  - pandas
+  - pillow
+  - scikit-image
+  - scipy
+  - pyarrow
+  - pip:
+      - tqdm

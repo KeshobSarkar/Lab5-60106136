@@ -1,0 +1,29 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: feature_selection_component
+display_name: Baseline + GA Feature Selection
+version: 2
+type: command
+
+inputs:
+  train_input:
+    type: uri_file
+
+outputs:
+  selected_features:
+    type: uri_file
+  baseline_metrics:
+    type: uri_file
+  ga_metrics:
+    type: uri_file
+
+code: .
+
+command: >
+  python feature_selection.py
+  --train_input ${{inputs.train_input}}
+  --selected_features ${{outputs.selected_features}}
+  --baseline_metrics ${{outputs.baseline_metrics}}
+  --ga_metrics ${{outputs.ga_metrics}}
+
+environment: azureml:gold_reg:10

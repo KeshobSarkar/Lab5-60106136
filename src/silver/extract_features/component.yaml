@@ -1,0 +1,23 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: extract_features_component
+display_name: Extract Image Features
+type: command
+
+inputs:
+  input_data:
+    type: uri_folder
+
+outputs:
+  output_features:
+    type: uri_file
+
+code: .
+
+environment:
+  conda_file: environment.yml
+  image: mcr.microsoft.com/azureml/minimal-ubuntu22.04-py39-cpu-inference:latest
+
+command: >
+  python extract_features.py
+  --input_data ${{inputs.input_data}}
+  --output_path ${{outputs.output_features}}

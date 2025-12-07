@@ -1,0 +1,16 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: feature_selection
+type: command
+inputs:
+  train_input:
+    type: uri_file
+outputs:
+  selected_features:
+    type: uri_file
+code: ../../src/gold
+command: >
+  python feature_selection.py
+  --train_input ${{inputs.train_input}}
+  --selected_features ${{outputs.selected_features}}
+environment:
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04

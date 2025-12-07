@@ -1,0 +1,28 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: feature_retrieval_component
+display_name: Feature Retrieval (Train/Test Split)
+version: 2
+type: command
+
+inputs:
+  silver_features:
+    type: uri_file
+
+outputs:
+  train_output:
+    type: uri_file
+  test_output:
+    type: uri_file
+
+code: .
+
+command: >
+  python feature_retrieval.py
+  --silver_features ${{inputs.silver_features}}
+  --train_output ${{outputs.train_output}}
+  --test_output ${{outputs.test_output}}
+
+environment: azureml:gold_reg:10
+
+

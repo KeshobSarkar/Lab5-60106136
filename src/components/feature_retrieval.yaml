@@ -1,0 +1,17 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: feature_retrieval
+version: 1
+type: command
+inputs: {}
+outputs:
+  train_output:
+    type: uri_file
+  test_output:
+    type: uri_file
+code: ../../src/gold
+command: >
+  python feature_retrieval.py
+  --train_output ${{outputs.train_output}}
+  --test_output ${{outputs.test_output}}
+environment:
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
